@@ -23,6 +23,12 @@ class _NewItemState extends State<NewItem> {
                 maxLength: 50,
                 decoration: InputDecoration(label: Text("Name")),
                 validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.length <= 1 ||
+                      value.length > 50) {
+                    return "Must have a name between 2 and 50 characters long!";
+                  }
                   return null;
                 },
               ),
@@ -33,6 +39,15 @@ class _NewItemState extends State<NewItem> {
                     child: TextFormField(
                       decoration: InputDecoration(label: Text("Quantity")),
                       initialValue: '1',
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            int.tryParse(value) == null ||
+                            int.tryParse(value)! <= 0) {
+                          return "Must enter a quantity greater than 0";
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -60,13 +75,17 @@ class _NewItemState extends State<NewItem> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12,),
+              const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                TextButton(onPressed: (){}, child: const Text("Reset")),
-                ElevatedButton(onPressed: (){}, child: const Text("Add Item"))
-              ],)
+                  TextButton(onPressed: () {}, child: const Text("Reset")),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Add Item"),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
